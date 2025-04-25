@@ -6,21 +6,29 @@ body {
     height: 100vh;
     margin: 0;
     font-family: sans-serif;
-    perspective: 1000px;
+    perspective: 2000px;
 }
 
 .card-container {
-    perspective: 1000px;
+    perspective: 2000px;
 }
 
-
-.card {
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+    z-index: 1;
+    position: relative;
+}
+.card-inner {
+    position: relative;
     width: 300px;
     height: 400px;
+    transform-style: preserve-3d;
     background: #222;
     border-radius: 16px;
     overflow: hidden;
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,15 +40,39 @@ body {
     /* Variables CSS personnalisées représentant la position de la souris */
     --mouse-x: 50%;
     --mouse-y: 50%;
-
+    transition: transform 0.8s ease;
     /* Préparation aux transformations 3D */
     transform-style: preserve-3d; /* Permet aux enfants de la carte de conserver leur position en 3D */
     will-change: transform; /* Optimise les performances pour les transformations */
-    transition: transform 0.1s ease; /* Ajoute une transition fluide lors des transformations */
 }
 
 
-.card::before {
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    top: 0;
+    left: 0;
+}
+
+.card-inner.is-flipped {
+    transform: rotateY(720deg);
+}
+
+
+.card-front {
+    transform: rotateY(0deg);
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+.card-inner::before {
     content: '';
     position: absolute;
     top: 0;
@@ -49,18 +81,18 @@ body {
     height: 100%;
     background: radial-gradient(
             circle at var(--mouse-x) var(--mouse-y),
-            rgba(255, 255, 255, 0.3),
+            rgba(255, 215, 0, 0.4), /* doré plus intense */
             transparent 40%
-    );
+    );/* EFFET HOLO GOLD */
     mix-blend-mode: color-dodge; /* Fusionne le dégradé avec le fond pour un effet lumineux */
     opacity: 0.5;
     pointer-events: none;
-    z-index: 1;
+    z-index: 0;
     animation: moveGradient 5s infinite linear;
 }
 
 /* Couche de texture animée */
-.card::after {
+.card-inner::after {
     content: '';
     position: absolute;
     top: 0;
@@ -68,15 +100,24 @@ body {
     width: 100%;
     height: 100%;
     background: url('https://assets.codepen.io/13471/sparkles.gif'),
-    linear-gradient(125deg, rgba(255, 0, 132, 0.3) 15%, rgba(252, 164, 0, 0.25) 30%, rgba(255, 255, 0, 0.2) 40%, rgba(0, 255, 138, 0.2) 60%, rgba(0, 207, 255, 0.25) 70%, rgba(204, 76, 250, 0.3) 85%);
+    linear-gradient(125deg,
+            rgba(255, 223, 0, 0.35) 20%,
+            rgba(255, 215, 0, 0.3) 40%,
+            rgba(255, 223, 0, 0.25) 60%,
+            rgba(255, 215, 0, 0.3) 80%);
     background-blend-mode: overlay;
     mix-blend-mode: color-dodge;
     opacity: 0.75;
     pointer-events: none;
-    z-index: 2;
+    z-index: 0;
     animation: moveTexture 10s infinite linear;
 }
 
+.card-tilt {
+    will-change: transform;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease;
+}
 
 @keyframes moveGradient {
     0% { background-position: 0% 50%; }

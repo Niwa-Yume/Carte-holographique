@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Carte Holographique</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 <div class="card-container">
-    <div class="card">
-        <h1>HOLO</h1>
+    <div class="card-tilt"> <!-- Nouveau conteneur tilt -->
+        <div class="card-inner">
+            <div class="card-front">
+                <img src="https://images.pokemontcg.io/swsh11tg/TG30_hires.png" alt="Shifours Mille Poings VMAX"
+                     class="card-image"/>
+            </div>
+            <div class="card-back">
+                <img src="https://tcg.pokemon.com/assets/img/global/tcg-card-back-2x.jpg" alt="Dos de la carte Pokémon"
+                     class="card-image"/>
+            </div>
+        </div>
     </div>
 </div>
+</div>
+
+
 <script src="script.js"></script>
 </body>
 </html>

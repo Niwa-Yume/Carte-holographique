@@ -1,19 +1,26 @@
-const card = document.querySelector('.card');
+const tiltContainer = document.querySelector('.card-tilt');
+const cardInner = document.querySelector('.card-inner');
 
-card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left; // Position X de la souris relative à la carte
-    const y = e.clientY - rect.top;  // Position Y de la souris relative à la carte
+// Tilt
+tiltContainer.addEventListener('mousemove', (e) => {
+    const rect = tiltContainer.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((y - centerY) / centerY) * 10; // Ajuste le facteur pour contrôler l'intensité
+    const rotateX = ((y - centerY) / centerY) * 10;
     const rotateY = ((x - centerX) / centerX) * 10;
 
-    card.style.transform = `rotateX(${ -rotateX }deg) rotateY(${ rotateY }deg)`;
+    tiltContainer.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
 });
 
-card.addEventListener('mouseleave', () => {
-    card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+tiltContainer.addEventListener('mouseleave', () => {
+    tiltContainer.style.transform = 'rotateX(0deg) rotateY(0deg)';
+});
+
+// Flip
+cardInner.addEventListener('click', () => {
+    cardInner.classList.toggle('is-flipped');
 });
